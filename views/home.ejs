@@ -1,0 +1,15 @@
+<div class="">
+  <div class="">
+    <%- include('./partials/header', {title: "The Daily Blog"})%>
+  </div>
+  <div class="me-5 ms-5 d-flex justify-content-end">
+    <a href="/new-article" class="text-decoration-none text-reset">
+      <button type="button" class="btn border-0 p-0 shadow-none" id="publish-button">
+        <img src="/svg/icons8-plus.svg" alt="Button icon" aria-hidden="true">
+      </button>
+    </a>
+  </div>
+  <div class="">
+    <%- include('./partials/article_cards', {id: 1, title: "Blog title", body: "there's a lot i want to say"}) %>
+  </div>
+</div>

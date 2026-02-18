@@ -1,0 +1,28 @@
+{
+  "name": "personal-blog",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/markbonchi/personal-blog#readme",
+  "bugs": {
+    "url": "https://github.com/markbonchi/personal-blog/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markbonchi/personal-blog.git"
+  },
+  "license": "ISC",
+  "author": "markbonchi",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "bootstrap": "^5.3.8",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "express-ejs-layouts": "^2.5.1",
+    "jquery": "^4.0.0"
+  }
+}

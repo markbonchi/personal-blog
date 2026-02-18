@@ -1,0 +1,64 @@
+<div>
+  <%- include('./partials/header.ejs',{title: "The Daily Blog"}) %>
+  <form action="/publish-article" method="post">
+
+    <div class="me-5 ms-5 d-flex justify-content-end">
+      <button type="submit" class="btn btn-dark shadow-none rounded-pill" id="publish-button">Publish</button>
+    </div>
+    <div class="container m-5 content-center p-3">
+      <style>
+        #editor{
+          font-family: 'Courier New', Courier, monospace;
+          cursor: text;
+          padding: 20px;
+          min-height: 200px;
+        }
+        h3:empty::before{
+          content: 'Title...';
+          color: gray;
+        }
+        </style>
+    <article>
+      <div class="form-control shadow-none black-cursor border-0" contenteditable="true" id="editor">
+        <h3 id="myTitle">
+          <br>
+        </h3>
+        <p id="myParagraph">
+          <br>
+        </p>
+      </div>
+      <input type="hidden" name="title" id="hidden-title">
+      <input type="hidden" name="paragraph" id="hidden-paragraph">
+    </article>
+    </div>
+  </form>
+  <script>
+    $('#editor').on('input', () => {
+      let titleH3 = $('#myTitle')
+      // if h3 is deleted or somehow empty
+      if (!titleH3 || titleH3.innerText.trim().length === 0) {
+        // restore zero width space to keep tag alive
+        if (titleH3.innerHTML === '') {
+          // titleH3.innerHTML = '&#8203'
+          titleH3.innerHTML = '\u200b'
+        }
+      }
+    })
+
+    $(document).ready(()=>{
+      $('form').on('submit',() => {
+        const title = $('#editor').find('h3').text().trim()
+        const $clone = $('#editor').clone();
+
+        $clone.find('h3').remove()
+        const paragraph = $clone.text().trim()
+
+        $('#hidden-title').val(title);
+        $('#hidden-paragraph').val(paragraph);
+
+        console.log('Title: ', title )
+        console.log('Paragraph: ', paragraph )
+      })
+    })
+  </script>
+</div>
