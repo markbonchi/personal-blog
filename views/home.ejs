@@ -10,6 +10,14 @@
     </a>
   </div>
   <div class="">
-    <%- include('./partials/article_cards', {id: 1, title: "Blog title", body: "there's a lot i want to say"}) %>
+    <ul class="list-group">
+      <% articles.forEach((data) => {%>
+        <% if (data.status === 'Publish') {%>
+          <li class="list-group-item border-0">
+            <%- include('./partials/article_cards', {id: data.id, title: data.title, body: data.paragraph}) %>
+          </li>
+        <%}%>
+      <%})%>
+    </ul>
   </div>
 </div>

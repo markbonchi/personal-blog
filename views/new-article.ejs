@@ -7,25 +7,40 @@
     </div>
     <div class="container m-5 content-center p-3">
       <style>
-        #editor{
+        h3[contenteditable="true"]{
           font-family: 'Courier New', Courier, monospace;
-          cursor: text;
-          padding: 20px;
-          min-height: 200px;
+          border: 0 !important;
+          box-shadow: none !important;
+          outline: none;
+        }
+        p[contenteditable="true"]{
+          font-family: 'Courier New', Courier, monospace;
+          min-height: 100px;
+          border: 0 !important;
+          box-shadow: none !important;
+          outline: none;
         }
         h3:empty::before{
-          content: 'Title...';
+          content: attr(data-placeholder);
+          cursor: text;
           color: gray;
+        }
+        h3:focus::before{
+          content: "";
+        }
+        p:empty::before{
+          content: attr(data-placeholder);
+          cursor: text;
+          color: gray;
+        }
+        p:focus::before{
+          content: "";
         }
         </style>
     <article>
-      <div class="form-control shadow-none black-cursor border-0" contenteditable="true" id="editor">
-        <h3 id="myTitle">
-          <br>
-        </h3>
-        <p id="myParagraph">
-          <br>
-        </p>
+      <div id="editor" class="ps-3 pe-3">
+        <h3 id="myTitle" contenteditable="true" data-placeholder="Title..." ></h3>
+        <p id="myParagraph" contenteditable="true" data-placeholder="Say something..."></p>
       </div>
       <input type="hidden" name="title" id="hidden-title">
       <input type="hidden" name="paragraph" id="hidden-paragraph">
@@ -33,32 +48,58 @@
     </div>
   </form>
   <script>
-    $('#editor').on('input', () => {
-      let titleH3 = $('#myTitle')
-      // if h3 is deleted or somehow empty
-      if (!titleH3 || titleH3.innerText.trim().length === 0) {
-        // restore zero width space to keep tag alive
-        if (titleH3.innerHTML === '') {
-          // titleH3.innerHTML = '&#8203'
-          titleH3.innerHTML = '\u200b'
-        }
-      }
-    })
-
     $(document).ready(()=>{
+      const $title = $('h3[contenteditable="true"]');
+      const $body = $('p[contenteditable="true"]');
+      const $submit_button = $('#publish-button');
+
+      // $submit_button.prop('disabled', true);
+
+
+      $title.on('keydown', (e) => {
+        // handle enter (13) -> move to body
+        if(e.which === 13 || e.keyCode === 13) {
+          e.preventDefault()
+          $body.focus()
+        }
+        // if(e.which === 8 || e.keyCode === 8) {
+        //   if ($(this).text().trim().length <= 0) {e.preventDefault()}
+        // }
+      });
+
       $('form').on('submit',() => {
-        const title = $('#editor').find('h3').text().trim()
-        const $clone = $('#editor').clone();
+        const $title = $('h3[contenteditable="true"]').text().trim()
+        const $paragraph = $('p[contenteditable="true"]').text().trim();
 
-        $clone.find('h3').remove()
-        const paragraph = $clone.text().trim()
+        // $submit_button.prop('disabled', $paragraph.length === 0)
+        
 
-        $('#hidden-title').val(title);
-        $('#hidden-paragraph').val(paragraph);
-
-        console.log('Title: ', title )
-        console.log('Paragraph: ', paragraph )
+        $('#hidden-title').val($title);
+        $('#hidden-paragraph').val($paragraph);
       })
+
+      // $body.on('keydown', (e) => {
+      //   if (e.which === 8 || e.keyCode === 8) {
+      //     // if ($(this).text().trim() === "" || $(this).html() === "<br>") {
+      //     if ($(this).text().trim().length === 0) {
+      //       // $(this).empty()
+      //       e.preventDefault(); // stop browser from doing it's own thing
+
+      //       //Focus to title and move to END
+      //       $title.focus();
+      //       ((el)=>{
+      //         const range = document.createRange();
+      //         const sel = window.getSelection();
+
+      //         range.selectNodeContents(el)
+      //         range.collapse(false)
+      //         sel.removeAllRanges()
+      //         sel.addRange(range)
+      //       })($title[0])
+      //     }
+      //   }
+      // })
+
     })
   </script>
 </div>

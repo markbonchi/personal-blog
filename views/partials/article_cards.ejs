@@ -1,8 +1,8 @@
 <a href="/article/<%= id %>" class="text-decoration-none text-reset">
-    <div class="m-3 ps-3 pe-3 card border border-dark rounded-1 border-opacity-25">
-      <div class="p-2 card-body">
-        <h5><%= title %></h5>
-        <p><%= body %></p>
-      </div>
+  <div class="me-3 ms-3 m-1 ps-3 pe-3 card border border-dark rounded-1 border-opacity-25">
+    <div class="mt-1 p-2 card-body">
+      <h5><%= title %></h5>
+      <p><%= body.slice(0,20) %>...</p>
     </div>
+  </div>
 </a>

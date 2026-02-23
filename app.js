@@ -3,7 +3,7 @@ import expressEjsLayouts from "express-ejs-layouts";
 import bodyParser from "body-parser";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
-import { addArticle } from "./utils/handle_articles.js";
+import { addArticle, loadAllArticles } from "./utils/handle_articles.js";
 
 const app = express();
 const port = process.env.PORT || "5123";
@@ -18,8 +18,8 @@ app.set("PORT", port);
 app.set("view engine", "ejs");
 app.set("layout", "layouts/main.ejs");
 
-app.get("/", (req, res) => {
-  res.render("home");
+app.get("/", async (req, res) => {
+  res.render("home", { articles: await loadAllArticles() });
 });
 
 app.get("/new-article", (req, res) => {
@@ -28,6 +28,7 @@ app.get("/new-article", (req, res) => {
 
 app.post("/publish-article", (req, res) => {
   console.log(req.body);
+  // if (req.body.paragraph.length === 20) res.redirect()
   addArticle(req.body.title, req.body.paragraph)
     .then((data) => {
       console.log(`Data revieved: ${data}`);

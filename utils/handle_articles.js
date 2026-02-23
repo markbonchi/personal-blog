@@ -11,18 +11,10 @@ const createArticle = (title, paragraph, articleInstances) => {
   // Properties of theis function may have to change. because random ID might have to be implemented
   if (articleInstances.length !== 0) {
     const availableID = articleInstances.map((item) => item.id);
-    // availableID.sort((a, b) => a - b);
 
-    // if the length of list is less than the last digit in th
-    if (articleInstances.length < availableID[articleInstances.length - 1]) {
-      for (let i = 1; i < availableID[articleInstances.length - 1]; i++) {
-        if (availableID.includes(i)) {
-          continue;
-        } else {
-          newArticle.setId(i);
-          break;
-        }
-      }
+    // if article id already exists
+    if (availableID.filter((item) => item === newArticle.id).length > 1) {
+      newArticle.setId(Math.floor(Math.random() * 10000) + 10000);
     }
   }
   return newArticle;
@@ -32,7 +24,7 @@ const addArticle = async (title, paragraph) => {
   const fileDate = await loadJsonFile();
 
   const articleInstances = fileDate.map((item) => {
-    return Article.newInstance(item);
+    return Article.oldInstance(item);
   });
   // console.log(articleInstances);
 
@@ -43,4 +35,9 @@ const addArticle = async (title, paragraph) => {
   return newArticle;
 };
 
-export { addArticle };
+const loadAllArticles = async () => {
+  const fileData = await loadJsonFile();
+  return fileData;
+};
+
+export { addArticle, loadAllArticles };
